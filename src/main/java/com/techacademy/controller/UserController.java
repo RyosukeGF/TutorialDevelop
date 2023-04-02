@@ -3,8 +3,12 @@ package com.techacademy.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.techacademy.entity.User;
 import com.techacademy.service.UserService;
 
 @Controller
@@ -14,7 +18,6 @@ public class UserController {
 
         public UserController(UserService service) {
             this.service = service;
-
         }
 
 
@@ -28,6 +31,40 @@ public class UserController {
      // user/list.htmlに画面遷移
             return "user/list";
 
+        }
+
+        /** User登録画面を表示 */
+        @GetMapping("/register")
+        public String getResister(@ModelAttribute User user) {
+            // User登録画面に遷移
+            return "user/register";
+
+        }
+
+        /** User登録処理 */
+        @PostMapping("/register")
+        public String postRegister(User user) {
+            //user登録
+            service.saveUser(user);
+            // 一覧画面にリダイレクト
+            return "redirect:/user/list";
+        }
+        
+        @GetMapping("/update/{id}/")
+        public String getUser(@PathVariable("id") Integer id, Model model) {
+            //Modelに登録
+            model.addAttribute("user", service.getUser(id));
+            
+            //User更新画面に遷移
+            return "user/update";
+        }
+        
+        @PostMapping("/update/{id}/")
+        public String postUser(User user) {
+            //User登録
+            service.saveUser(user);
+            //一覧画面にリダイレクト
+            return "redirect:/user/list";
         }
 
 }
