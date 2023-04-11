@@ -45,16 +45,19 @@ public class User {
     @Length(max=20)
     private String name; //スペルミス
 
+
     /** 性別。2桁。列挙型（文字列） */
     @Column(length = 2)
     @Enumerated(EnumType.STRING)
     @NotNull
     private Gender gender;
 
+
     /** 年齢 */
     @Min(0)
     @Max(120)
     private Integer age;
+
 
     /** メールアドレス。50桁。null許可 */
     @Column(length = 50)
@@ -62,8 +65,10 @@ public class User {
     @Length(max=50)
     private String email;
 
+
     @OneToOne(mappedBy="user")
     private Authentication authentication;
+
 
     /** レコードが削除される前に行なう処理 */
     @PreRemove
